@@ -14,8 +14,10 @@
         </script>
 
         <script src="../node_modules/requirejs/require.js"></script>
+        <script>console.log('define',define);</script>
         <script src="../index.js"></script>
         <script src="test.interface.js"></script>
+        <script src="test.sandbox.js"></script>
         <script>
             if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
             else { mocha.run(); }
