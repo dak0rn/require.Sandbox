@@ -18,6 +18,18 @@ describe('Sandbox', function(){
         expect( require.Sandbox ).to.be.a('function');
     });
 
+    it('should have a working .extend() function', function() {
+        var MyBox = require.Sandbox.extend({ fancy: true, execute: 1337 });
+
+        var box = new MyBox();
+
+        expect(box).to.be.an('object');
+        expect(box.fancy).to.be.true();
+        expect(box.execute).not.to.be.a('function');
+        expect(box.execute).to.equal(1337);
+        
+    });
+
     it('should have a `noConflict` method', function(){
 
         expect( require.Sandbox.noConflict ).not.to.be.undefined();
@@ -222,13 +234,13 @@ describe('Sandbox', function(){
 
         expect(sandbox.state).to.equal('pending');
 
-        sandbox.require().then( function(box) {
+        sandbox.require().catch( function(box) {
             expect(sandbox.state).to.equal('error');
             done();
         });
     });
 
-    it('should provide the error', function(done){
+    it('should provide the error object', function(done){
         var sandbox = new require.Sandbox({
             load: './third-404'
         });
@@ -237,7 +249,7 @@ describe('Sandbox', function(){
 
         sandbox.require().catch( function(box) {
             expect(sandbox.state).to.equal('error');
-            expect(sandbox.state).to.be.an('object');
+            expect(sandbox.error).to.be.an('object');
             done();
         });
     });
