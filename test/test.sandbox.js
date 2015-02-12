@@ -79,8 +79,77 @@ describe('Sandbox functionality', function(){
 
     });
 
-    it('should execute the function properly', function(){
-        
+    it('should have an .execute function that returns a promise', function(done){
+        var sandbox = new require.Sandbox({
+            load: './anotherScript'
+        });
+
+        sandbox.require().then( function(box) {
+
+            var p = box.execute({
+                name: 'identity',
+                context: sandbox,
+                arguments: [42]
+
+            });
+
+            expect(p).to.be.an('object');
+            expect(p.then).to.be.a('function');
+
+            done();
+        });
+    });
+
+    it('should execute the function properly and return a promise', function(done){
+        var sandbox = new require.Sandbox({
+            load: './anotherScript'
+        });
+
+        sandbox.require().then( function(box) {
+
+            var p = box.execute({
+                name: 'identity',
+                context: sandbox,
+                arguments: [42]
+
+            });
+
+            p.then( function(result){
+                expect(result.number).to.equal(42);
+                expect(result.ctx).to.equal(sandbox);
+                done();
+            });
+
+            p.catch( function(){
+                done('failed');
+            });
+        });
+    });
+
+    it('should execute the callback on error', function(done){
+        var sandbox = new require.Sandbox({
+            load: './anotherScript'
+        });
+
+        sandbox.require().then( function(box) {
+
+            var p = box.execute({
+                name: 'notfound'
+            });
+
+            p.then( function(result){
+                done('failed');
+            });
+
+            p.catch( function(error){
+                expect(error).to.be.an('object');
+                expect(error.type).to.be.a('string');
+                expect(error.sandbox).to.be.an('object');
+
+                done();
+            });
+
+        });
     });
 
 });
