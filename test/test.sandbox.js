@@ -27,7 +27,7 @@ describe('Sandbox', function(){
         expect(box.fancy).to.be.true();
         expect(box.execute).not.to.be.a('function');
         expect(box.execute).to.equal(1337);
-        
+
     });
 
     it('should have a `noConflict` method', function(){
@@ -250,6 +250,26 @@ describe('Sandbox', function(){
         sandbox.require().catch( function(box) {
             expect(sandbox.state).to.equal('error');
             expect(sandbox.error).to.be.an('object');
+            done();
+        });
+    });
+
+    // it('should catch in-module errors', function(done){
+    //     var sandbox = new require.Sandbox({
+    //         load: './typo'
+    //     });
+    //
+    //     sandbox.require().catch(function(err){
+    //         done();
+    //     });
+    // });
+
+    it('should catch in-module thrown errors', function(done){
+        var sandbox = new require.Sandbox({
+            load: './throw'
+        });
+
+        sandbox.require().catch(function(err){
             done();
         });
     });
