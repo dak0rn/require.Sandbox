@@ -2,7 +2,60 @@
  * Test for the core sandbox functionality
  * Created by dak0rn on 09.02.2015.
  */
-describe('Sandbox functionality', function(){
+describe('Sandbox', function(){
+
+    it('should be a constructor function', function() {
+        expect( require.Sandbox ).to.be.a('function');
+
+        var instance = new require.Sandbox();
+
+        expect( instance).to.be.an('object');
+        expect( instance ).to.be.an.instanceOf( require.Sandbox );
+    });
+
+    it('should have an .extend() function', function() {
+        expect( require.Sandbox ).to.have.ownProperty('extend');
+        expect( require.Sandbox ).to.be.a('function');
+    });
+
+    it('should have a `noConflict` method', function(){
+
+        expect( require.Sandbox.noConflict ).not.to.be.undefined();
+
+        var old = require.Sandbox.noConflict();
+
+        expect( old ).not.to.be.undefined();
+        expect( require.Sandbox ).to.be.undefined();
+
+        // Restore instance
+        require.Sandbox = old;
+    });
+
+
+    it('should have a .require() function', function() {
+        var instance = new require.Sandbox();
+        expect( instance.require ).to.be.a('function');
+    });
+
+    it('should have a .test property', function() {
+        var instance = new require.Sandbox();
+        expect( instance ).to.have.property('test');
+    });
+
+    it('should have a default function for the .test property', function() {
+        var instance = new require.Sandbox();
+        expect( instance.test ).to.be.a('function');
+    });
+
+    it('should have a .load property', function() {
+        var instance = new require.Sandbox();
+        expect( instance ).to.have.property('load');
+    });
+
+    it('should have `null` as default value for null', function() {
+        var instance = new require.Sandbox();
+        expect( instance.null ).not.to.be.null();
+    });
 
     it('should return a thenable object', function(){
 
@@ -87,10 +140,7 @@ describe('Sandbox functionality', function(){
         sandbox.require().then( function(box) {
 
             var p = box.execute({
-                name: 'identity',
-                context: sandbox,
-                arguments: [42]
-
+                name: 'identity'
             });
 
             expect(p).to.be.an('object');
@@ -100,7 +150,7 @@ describe('Sandbox functionality', function(){
         });
     });
 
-    it('should execute the function properly and return a promise', function(done){
+    it('should execute the function properly and return a working promise', function(done){
         var sandbox = new require.Sandbox({
             load: './anotherScript'
         });
@@ -149,6 +199,46 @@ describe('Sandbox functionality', function(){
                 done();
             });
 
+        });
+    });
+
+    it('should update its state to "required"', function(done){
+        var sandbox = new require.Sandbox({
+            load: './anotherScript'
+        });
+
+        expect(sandbox.state).to.equal('pending');
+
+        sandbox.require().then( function(box) {
+            expect(sandbox.state).to.equal('required');
+            done();
+        });
+    });
+
+    it('should update its state to "error"', function(done){
+        var sandbox = new require.Sandbox({
+            load: './another-404'
+        });
+
+        expect(sandbox.state).to.equal('pending');
+
+        sandbox.require().then( function(box) {
+            expect(sandbox.state).to.equal('error');
+            done();
+        });
+    });
+
+    it('should provide the error', function(done){
+        var sandbox = new require.Sandbox({
+            load: './third-404'
+        });
+
+        expect(sandbox.error).to.be.an.undefined();
+
+        sandbox.require().catch( function(box) {
+            expect(sandbox.state).to.equal('error');
+            expect(sandbox.state).to.be.an('object');
+            done();
         });
     });
 
