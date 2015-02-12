@@ -4,7 +4,7 @@
   "description": "A sandbox module for requirejs",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha-phantomjs test/tests.html"
   },
   "keywords": [
     "require",
@@ -16,7 +16,6 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
-    "mocha": "^2.1.0",
     "requirejs": "^2.1.15",
     "when": "^3.7.2"
   }
