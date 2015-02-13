@@ -30,4 +30,4 @@ gulp.task('test:build', function(){
 });
 
 gulp.task('default',['lint','uglify','test:build']);
-gulp.task('build',['test:default','default']);
+gulp.task('build',['test:default','lint','uglify','test:build']);
