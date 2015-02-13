@@ -16,7 +16,9 @@ not crash the whole application but can be handled programmatically.
 
 Clone the repository with `git`:
 
+
     git clone https://github.com/SuitSoft/require.Sandbox.git
+
 
 You then have access to the uncompressed `index.js` and the minified version `dist/index.js`.
 It is strongly recommended to use the uncompressed version when developing.
@@ -82,6 +84,7 @@ Given the following file structure:
 These are the contents of your `index.html` file, typically for a require.js kickoff
 application.
 
+```html
     <!DOCTYPE html>
     <html>
         <head>
@@ -90,10 +93,12 @@ application.
         <body>
         </body>
     </html>
+```
 
 The `lib/loader.js` file will configure require.js and try to load a non-existing
 module, errors will be caught and printed to the console:
 
+```js
     requirejs.config({
         baseUrl: 'lib',
         paths: {
@@ -148,6 +153,8 @@ module, errors will be caught and printed to the console:
 
     });
 
+```
+
 ## API documentation
 
 require.Sandbox comes with a simple API that feels very natural if you are used to
@@ -162,13 +169,16 @@ return itself like normal module so that you can use it in your `require()` call
 `require.Sandbox` is a constructor function that allows you to create new objects of it.
 You can submit an object with configuration when you instantiate a new `Sandbox`:
 
+```js
     var sandbox = new require.Sandbox({
         load: 'filename',
         test: myTestFunction
         });
+```
 
 Any option more than these two will be added to the object and is available later:
 
+```js
     var sandbox = new require.Sandbox({
         load: 'filename',
         test: myTestFunction,
@@ -176,6 +186,8 @@ Any option more than these two will be added to the object and is available late
         });
 
     // sandbox.fancy === true;
+
+```
 
 #### `require.Sandbox` - `load`
 
@@ -212,13 +224,14 @@ After you have created a `Sandbox` object you can load the specified module usin
 the `.require()` function. It will throw you some errors if anything is wrong
 with your arguments (e.g. no module has been specified).
 
+```js
     var sandbox = new require.Sandbox({
         load: 'modules/main/Controller.js',
         test: require.Sandbox.test.undefined
         });
 
     var promise = sandbox.require();
-
+```
 
 The require function returns *something that looks like a promise*.
 
@@ -235,15 +248,18 @@ You can attach handlers using `.then()` and `.catch()` for success or failure.
 The success handlers will retrive the same sandbox object that was used to require
 the module (this allows you to create generic handlers that can work with the arguments they get).
 
+```js
     promise.then( function(sandbox) {
         // Do awesome stuff here
     });
+```
 
 Later more on how to use a sandbox with a loaded module.
 
 The error handlers will retrieve an error object that contains information about
 what happened.
 
+```js
     promise.catch( function(err) {
         console.log('Something failed. Reason:', err.type);     // Type
         console.log('The sandbox:', err.sandbox);               // Sandbox
@@ -255,3 +271,4 @@ what happened.
 
 
     });
+```
