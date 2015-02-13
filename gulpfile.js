@@ -8,13 +8,26 @@ var uglify = require('gulp-uglify');
 var phantom = require('gulp-mocha-phantomjs');
 
 gulp.task('lint', function(){
-    gulp.src('index.js')
-        .pipe( jshint() )
-        .pipe( jshint.reporter('default') );
+    return gulp.src('index.js')
+            .pipe( jshint() )
+            .pipe( jshint.reporter('default') );
 });
 
 gulp.task('uglify', function(){
-    gulp.src('index.js')
-        .pipe( uglify() )
-        .pipe( gulp.dest('index.min.js') );
+    return gulp.src('index.js')
+            .pipe( uglify() )
+            .pipe( gulp.dest('dist') );
 });
+
+gulp.task('test:default', function(){
+    return gulp.src('test/index.html')
+            .pipe( phantom() );
+});
+
+gulp.task('test:build', function(){
+    return gulp.src('test/index-build.html')
+            .pipe( phantom() );
+});
+
+gulp.task('default',['lint','uglify','test:build']);
+gulp.task('build',['test:default','default']);
