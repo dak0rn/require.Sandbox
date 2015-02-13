@@ -59,6 +59,12 @@ describe('Sandbox', function(){
         expect( instance.test ).to.be.a('function');
     });
 
+    it('should provide a test function for lazy developers', function() {
+        expect( require.Sandbox.test.undefined ).to.be.a('function');
+        expect( require.Sandbox.test.undefined(undefined) ).to.be.false();
+        expect( require.Sandbox.test.undefined(42) ).to.be.true();
+    });
+
     it('should have a .load property', function() {
         var instance = new require.Sandbox();
         expect( instance ).to.have.property('load');
@@ -254,15 +260,80 @@ describe('Sandbox', function(){
         });
     });
 
-    // it('should catch in-module errors', function(done){
-    //     var sandbox = new require.Sandbox({
-    //         load: './typo'
-    //     });
-    //
-    //     sandbox.require().catch(function(err){
-    //         done();
-    //     });
-    // });
+    it('should provide patch functions', function(){
+        expect( require.Sandbox.patch).to.be.an('object');
+        expect( require.Sandbox.path.window ).to.be.a('function');
+        expect( require.Sandbox.path.require ).to.be.a('function');
+    });
+
+    it('should provide restore functions', function(){
+        expect( require.Sandbox.restore).to.be.an('object');
+        expect( require.Sandbox.restore.window ).to.be.a('function');
+        expect( require.Sandbox.restore.require ).to.be.a('function');
+    });
+
+    it('should patch window.onerror correctly', function(){
+        var old = window.onerror;
+
+        require.Sandbox.patch.window();
+
+        expect( window.onerror ).not.to.equal(old);
+
+        // Rollback
+        window.onerror = old;
+
+    });
+
+    it('should patch require.onError correctly', function(){
+        var old = require.onError;
+
+        require.Sandbox.patch.require();
+
+        expect( require.onError ).not.to.equal(old);
+
+        // Rollback
+        require.onError = old;
+
+    });
+
+    it('should restore window.onerror correctly', function(){
+        var old = window.onerror;
+
+        require.Sandbox.patch.window();
+        require.Sandbox.restore.window();
+
+        expect( window.onerror ).to.equal(old);
+
+        // Rollback
+        window.onerror = old;
+
+    });
+
+    it('should restore require.onError correctly', function(){
+        var old = require.onError;
+
+        require.Sandbox.patch.require();
+        require.Sandbox.restore.require();
+
+        expect( require.onError ).to.equal(old);
+
+        // Rollback
+        require.onError = old;
+
+    });
+
+    it('should catch in-module errors', function(done){
+        var sandbox = new require.Sandbox({
+            load: './typo'
+        });
+
+
+
+
+        sandbox.require().catch(function(err){
+            done();
+        });
+    });
 
     it('should catch in-module thrown errors', function(done){
         var sandbox = new require.Sandbox({
