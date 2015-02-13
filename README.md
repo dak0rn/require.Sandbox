@@ -147,3 +147,88 @@ module, errors will be caught and printed to the console:
         });
 
     });
+
+## API documentation
+
+require.Sandbox comes with a simple API that feels very natural if you are used to
+Backbone or Marionette.
+
+As shown in the usage example, you have to `require()` the script file which will then
+add `Sandbox` to `require` making it available as `require.Sandbox`. It will also
+return itself like normal module so that you can use it in your `require()` callback
+
+### `require.Sandbox`
+
+`require.Sandbox` is a constructor function that allows you to create new objects of it.
+You can submit an object with configuration when you instantiate a new `Sandbox`:
+
+    var sandbox = new require.Sandbox({
+        load: 'filename',
+        test: myTestFunction
+        });
+
+Any option more than these two will be added to the object and is available later:
+
+    var sandbox = new require.Sandbox({
+        load: 'filename',
+        test: myTestFunction,
+        fancy: true
+        });
+
+    // sandbox.fancy === true;
+
+#### `require.Sandbox` - `load`
+
+The `load` parameter given to the constructor is supposed to contain the path
+to a module. It is also possible to provide a function that returns the path.
+
+#### `require.Sandbox` - `test`
+
+When loading modules that contain errors such as `SyntaxError`'s, these will bubble
+up to the window causing your application to crash. To prevent that, require.Sandbox
+provides the `require.Sandbox.patch.window()` function (more on that later).
+
+However, errors bubbling up to the global error function cannot be matched to a loaded
+modules. So, if you load a couple of modules in parallel, it is not possible to say
+which module failed to load.
+
+To enable you to check if a module has failed to load, you can provide a test function
+that will retrieve the loaded module (and the sandbox object that loaded it) and returns
+either `true` or `false` - the latter indicates that the module did not load correctly.
+
+Thus, if you have a module that returns an object, you path the error function using
+`require.Sandbox.patch.window()` and your test function retrieves `undefined` the module
+has not been loaded correctly.
+
+Since checking for `undefined` is a very common task, `require.Sandbox` comes with the
+handy helper function `require.Sandbox.test.undefined` for that.
+
+If you do not provide a function, anything will taken as correctly loaded.
+
+
+### `Sandbox.require()`
+
+After you have created a `Sandbox` object you can load the specified module using
+the `.require()` function. It will throw you some errors if anything is wrong
+with your arguments (e.g. no module has been specified).
+
+    var sandbox = new require.Sandbox({
+        load: 'modules/main/Controller.js',
+        test: require.Sandbox.test.undefined
+        });
+
+    var promise = sandbox.require();
+
+
+The require function returns *something that looks like a promise*.
+
+---
+
+The be precisely, the returned object is *thenable* since it has a `.then()` function.
+**But**, it is not fully [Promises/A+](http://promisesaplus.com) compatible. If you want
+to have a real promise, I would recommend to use a library such as [when](https://github.com/cujojs/when), that can assimilate
+foreign thenables.
+
+---
+
+You can attach handlers using `.then()` and `.catch()` for success or failure.
