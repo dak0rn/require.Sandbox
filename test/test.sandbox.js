@@ -324,23 +324,30 @@ describe('Sandbox', function(){
 
     it('should catch in-module errors', function(done){
         var sandbox = new require.Sandbox({
-            load: './typo'
+            load: './typo',
+            test: require.Sandbox.test.undefined        // Default test function
         });
 
-
-
+        // Patch the window
+        require.Sandbox.patch.window();
 
         sandbox.require().catch(function(err){
+            require.Sandbox.restore.window();
             done();
         });
     });
 
     it('should catch in-module thrown errors', function(done){
         var sandbox = new require.Sandbox({
-            load: './throw'
+            load: './throw',
+            test: require.Sandbox.test.undefined        // Default test function
         });
 
+        // Patch the window
+        require.Sandbox.patch.window();
+
         sandbox.require().catch(function(err){
+            require.Sandbox.restore.window();
             done();
         });
     });
