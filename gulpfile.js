@@ -6,6 +6,7 @@ var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var phantom = require('gulp-mocha-phantomjs');
+var rename  = require('gulp-rename');
 
 gulp.task('lint', function(){
     return gulp.src('index.js')
@@ -16,6 +17,7 @@ gulp.task('lint', function(){
 gulp.task('uglify', function(){
     return gulp.src('index.js')
             .pipe( uglify() )
+            .pipe( rename({ extname: '.min.js'}))
             .pipe( gulp.dest('dist') );
 });
 
