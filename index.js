@@ -6,7 +6,7 @@
  * Proudly made with Atom <https://atom.io>
  */
 (function(require, requirejs, window, define){
-    // 'use strict';
+    'use strict';
 
     // Reference to another version
     var previousSandbox = require.Sandbox;
@@ -122,7 +122,7 @@
      * @param   {object} object     Object with error information
      */
     var _makeError = function(sandbox, object) {
-        
+
         if( 'undefined' === typeof sandbox ) {
             // This should not happen
             throw new Error('require.Sandbox: internal error, _makeError [no-sb]');
