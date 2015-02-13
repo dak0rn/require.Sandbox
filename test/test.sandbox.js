@@ -262,8 +262,8 @@ describe('Sandbox', function(){
 
     it('should provide patch functions', function(){
         expect( require.Sandbox.patch).to.be.an('object');
-        expect( require.Sandbox.path.window ).to.be.a('function');
-        expect( require.Sandbox.path.require ).to.be.a('function');
+        expect( require.Sandbox.patch.window ).to.be.a('function');
+        expect( require.Sandbox.patch.require ).to.be.a('function');
     });
 
     it('should provide restore functions', function(){
