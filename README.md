@@ -206,7 +206,7 @@ handy helper function `require.Sandbox.test.undefined` for that.
 If you do not provide a function, anything will taken as correctly loaded.
 
 
-### `Sandbox.require()`
+### `Sandbox.require()` and handlers
 
 After you have created a `Sandbox` object you can load the specified module using
 the `.require()` function. It will throw you some errors if anything is wrong
@@ -232,3 +232,26 @@ foreign thenables.
 ---
 
 You can attach handlers using `.then()` and `.catch()` for success or failure.
+The success handlers will retrive the same sandbox object that was used to require
+the module (this allows you to create generic handlers that can work with the arguments they get).
+
+    promise.then( function(sandbox) {
+        // Do awesome stuff here
+    });
+
+Later more on how to use a sandbox with a loaded module.
+
+The error handlers will retrieve an error object that contains information about
+what happened.
+
+    promise.catch( function(err) {
+        console.log('Something failed. Reason:', err.type);     // Type
+        console.log('The sandbox:', err.sandbox);               // Sandbox
+
+        // Require.js?
+        if( 'requireError' === err.type ) {
+            console.log('Error in require.js: ', err.err);     // require.js error object
+        }
+
+
+    });
