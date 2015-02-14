@@ -273,3 +273,7 @@ promise.catch( function(err) {
 
 });
 ```
+
+
+---
+** README is still under development, please stand by **
