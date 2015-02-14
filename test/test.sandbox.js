@@ -194,6 +194,28 @@ describe('Sandbox', function(){
         });
     });
 
+    it('should provide access to non-function properties using .execute', function(done){
+        var sandbox = new require.Sandbox({
+            load: './script'
+        });
+
+        sandbox.require().then( function(box) {
+
+            var p = box.execute({
+                name: 'script'
+            });
+
+            p.then( function(result){
+                expect(result.number).to.equal('script.js');
+                done();
+            });
+
+            p.catch( function(){
+                done('failed');
+            });
+        });
+    });
+
     it('should execute the callback on error', function(done){
         var sandbox = new require.Sandbox({
             load: './anotherScript'

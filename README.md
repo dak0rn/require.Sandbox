@@ -81,77 +81,78 @@ Given the following file structure:
                     index.min.js
             loader.js
 
-These are the contents of your `index.html` file, typically for a require.js kickoff
+These are the contents of your `index.html` file, a basic require.js kickoff
 application.
 
 ```html
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <script src="lib/requirejs/require.js" data-main="lib/loader"></script>
-        </head>
-        <body>
-        </body>
-    </html>
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="lib/requirejs/require.js" data-main="lib/loader"></script>
+    </head>
+    <body>
+    </body>
+</html>
 ```
 
 The `lib/loader.js` file will configure require.js and try to load a non-existing
 module, errors will be caught and printed to the console:
 
 ```js
-    requirejs.config({
-        baseUrl: 'lib',
-        paths: {
-            'require.Sandbox': 'require.Sandbox/dist/index.min'
-        }
+requirejs.config({
+    baseUrl: 'lib',
+    paths: {
+        'require.Sandbox': 'require.Sandbox/dist/index.min'
+    }
+});
+
+// Load the sandbox to make it available
+require(['require.Sandbox'], function(Sandbox){
+
+    // The sandbox module is now available as
+    // Sandbox                  (function argument)
+    // or  
+    // require.Sandbox          (global hook)
+
+    var testFunction = function(module) {
+        return 'undefined' !== typeof module;
+    };
+
+    var mySandbox = new Sandbox({
+        load: './not-found',             // Module to load
+        test: testFunction               // Test function to ensure the module has been loaded
     });
 
-    // Load the sandbox to make it available
-    require(['require.Sandbox'], function(Sandbox){
+    // Patch the error functions to prevent errors from
+    // bubbling up
+    require.Sandbox.patch.window();
+    require.Sandbox.patch.require();
 
-        // Module is now available as
-        // Sandbox
-        // or
-        // require.Sandbox
+    // Try to load the module
+    var promise = mySandbox.require();
 
-        var testFunction = function(module) {
-            return 'undefined' !== typeof module;
-        };
+    // Invoked when loading was successful
+    promise.then( function( sandbox ) {
+        // sandbox === mySandbox
 
-        var mySandbox = new Sandbox({
-            load: './not-found',             // Module to load
-            test: testFunction               // Test function to ensure the module has been loaded
+        // Execute a function on the loaded module
+        // .execute() returns a promise
+        var ep = sandbox.execute({
+            name: 'moduleStart',            // Name of the function
+            context: this,                  // Context (default: {})
+            arguments: [true,false,42]      // Function arguments (default: [])
         });
 
-        // Patch the error functions to prevent errors from
-        // bubbling up
-        require.Sandbox.patch.window();
-        require.Sandbox.patch.require();
 
-        // Try to load the module
-        var promise = mySandbox.require();
-
-        // Invoked when loading was successful
-        promise.then( function( sandbox ) {
-
-            // Execute a function on the loaded module
-            // .execute() returns a promise
-            var ep = sandbox.execute({
-                name: 'moduleStart',            // Name of the function
-                context: this,                  // Context (default: {})
-                arguments: [true,false,42]      // Function arguments (default: [])
-            });
-
-
-            ep.then( function(result) { console.log('executed .moduleStart(), returned:', result); })
-              .catch( function(err) { console.log('Could not execute .moduleStart():', err); });
-        });
-
-        promise.catch( function(err) {
-            console.log('Cannot load module: ', err.type);
-        });
-
+        ep.then( function(result) { console.log('executed .moduleStart(), returned:', result); })
+          .catch( function(err) { console.log('Could not execute .moduleStart():', err); });
     });
+
+    promise.catch( function(err) {
+        console.log('Cannot load module: ', err.type);
+    });
+
+});
 
 ```
 
@@ -170,22 +171,22 @@ return itself like normal module so that you can use it in your `require()` call
 You can submit an object with configuration when you instantiate a new `Sandbox`:
 
 ```js
-    var sandbox = new require.Sandbox({
-        load: 'filename',
-        test: myTestFunction
-        });
+var sandbox = new require.Sandbox({
+    load: 'filename',
+    test: myTestFunction
+    });
 ```
 
 Any option more than these two will be added to the object and is available later:
 
 ```js
-    var sandbox = new require.Sandbox({
-        load: 'filename',
-        test: myTestFunction,
-        fancy: true
-        });
+var sandbox = new require.Sandbox({
+    load: 'filename',
+    test: myTestFunction,
+    fancy: true
+    });
 
-    // sandbox.fancy === true;
+// sandbox.fancy === true;
 
 ```
 
@@ -225,12 +226,12 @@ the `.require()` function. It will throw you some errors if anything is wrong
 with your arguments (e.g. no module has been specified).
 
 ```js
-    var sandbox = new require.Sandbox({
-        load: 'modules/main/Controller.js',
-        test: require.Sandbox.test.undefined
-        });
+var sandbox = new require.Sandbox({
+    load: 'modules/main/Controller.js',
+    test: require.Sandbox.test.undefined
+    });
 
-    var promise = sandbox.require();
+var promise = sandbox.require();
 ```
 
 The require function returns *something that looks like a promise*.
@@ -249,9 +250,9 @@ The success handlers will retrive the same sandbox object that was used to requi
 the module (this allows you to create generic handlers that can work with the arguments they get).
 
 ```js
-    promise.then( function(sandbox) {
-        // Do awesome stuff here
-    });
+promise.then( function(sandbox) {
+    // Do awesome stuff here
+});
 ```
 
 Later more on how to use a sandbox with a loaded module.
@@ -260,15 +261,15 @@ The error handlers will retrieve an error object that contains information about
 what happened.
 
 ```js
-    promise.catch( function(err) {
-        console.log('Something failed. Reason:', err.type);     // Type
-        console.log('The sandbox:', err.sandbox);               // Sandbox
+promise.catch( function(err) {
+    console.log('Something failed. Reason:', err.type);     // Type
+    console.log('The sandbox:', err.sandbox);               // Sandbox
 
-        // Require.js?
-        if( 'requireError' === err.type ) {
-            console.log('Error in require.js: ', err.err);     // require.js error object
-        }
+    // Require.js?
+    if( 'requireError' === err.type ) {
+        console.log('Error in require.js: ', err.err);     // require.js error object
+    }
 
 
-    });
+});
 ```
