@@ -206,7 +206,7 @@ describe('Sandbox', function(){
             });
 
             p.then( function(result){
-                expect(result.number).to.equal('script.js');
+                expect(result).to.equal('script.js');
                 done();
             });
 
