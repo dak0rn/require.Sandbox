@@ -333,11 +333,15 @@
             options = _extend({context:{},arguments:[]},options);
 
             try {
-                // Invoke the function and resolve the promise with its
-                // return value
-                promise.resolve(
-                    _sb.wrapped[options.name].apply(options.context,options.arguments)
-                );
+                // Invoke the function or retrieve the value and resolve the promise with it
+                var r;
+
+                if( 'function' === typeof _sb.wrapped[options.name] )
+                    r = _sb.wrapped[options.name].apply(options.context,options.arguments);
+                else
+                    r = _sb.wrapped[options.name];
+                
+                promise.resolve( r );
             }
             catch( e ) {
                 promise.reject( _makeError(this,{type:'executeFailed',exception: e}) );
