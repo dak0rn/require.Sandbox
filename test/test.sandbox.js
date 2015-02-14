@@ -224,7 +224,7 @@ describe('Sandbox', function(){
         sandbox.require().then( function(box) {
 
             var p = box.execute({
-                name: 'notfound'
+                name: 'err'
             });
 
             p.then( function(result){

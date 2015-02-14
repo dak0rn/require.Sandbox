@@ -6,7 +6,10 @@
             identity: function(x) { return {
                 number: x,
                 ctx: this
-            }; }
+            }; },
+            err: function() {
+                throw new Error('another error');
+            }
         };
     });
 
