@@ -323,3 +323,9 @@ values are possible:
 - `pending` - The module has not been loaded yet
 - `required` - The module has been loaded successfully
 - `error` - The module loading was aborted with an error
+
+
+### Sandbox.error
+
+The `.error` property contains the error that occurred while loading the module.
+The default value here is `undefined`.
