@@ -175,7 +175,7 @@ As shown in the usage example, you have to `require()` the script file which wil
 add `Sandbox` to `require` making it available as `require.Sandbox`. It will also
 return itself like normal module so that you can use it in your `require()` callback
 
-### `require.Sandbox`
+### require.Sandbox
 
 `require.Sandbox` is a constructor function that allows you to create new objects of it.
 You can submit an object with configuration when you instantiate a new `Sandbox`:
@@ -200,12 +200,12 @@ var sandbox = new require.Sandbox({
 
 ```
 
-#### `require.Sandbox` - `load`
+#### load parameter
 
 The `load` parameter given to the constructor is supposed to contain the path
 to a module. It is also possible to provide a function that returns the path.
 
-#### `require.Sandbox` - `test`
+#### test parameter
 
 When loading modules that contain errors such as `SyntaxError`'s, these will bubble
 up to the window causing your application to crash. To prevent that, require.Sandbox
@@ -229,7 +229,7 @@ handy helper function `require.Sandbox.test.undefined` for that.
 If you do not provide a function, anything will taken as correctly loaded.
 
 
-### `Sandbox.require()` and handlers
+### Sandbox.require() and handlers
 
 After you have created a `Sandbox` object you can load the specified module using
 the `.require()` function. It will throw you some errors if anything is wrong
@@ -246,14 +246,12 @@ var promise = sandbox.require();
 
 The require function returns *something that looks like a promise*.
 
----
+> The be precisely, the returned object is *thenable* since it has a `.then()` function.
+> **But**, it is not fully [Promises/A+](http://promisesaplus.com) compatible. If you want
+> to have a real promise, I would recommend to use a library such as [when](https://github.com/cujojs/when), that can assimilate
+> foreign thenables.
 
-The be precisely, the returned object is *thenable* since it has a `.then()` function.
-**But**, it is not fully [Promises/A+](http://promisesaplus.com) compatible. If you want
-to have a real promise, I would recommend to use a library such as [when](https://github.com/cujojs/when), that can assimilate
-foreign thenables.
 
----
 
 You can attach handlers using `.then()` and `.catch()` for success or failure.
 The success handlers will retrive the same sandbox object that was used to require
