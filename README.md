@@ -19,6 +19,7 @@ not crash the whole application but can be handled programmatically.
     - [Sandbox.require()](#sandboxrequire)
     - [Sandbox.execute()](#sandboxexecute)
     - [Sandbox.state](#sandboxstate)
+    - [Sandbox.error](#sandboxerror)
 
 ## Installation
 
