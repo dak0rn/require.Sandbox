@@ -6,6 +6,18 @@ can be used to safely load modules.
 The idea is to wrap them into a sandbox that makes sure that errors do
 not crash the whole application but can be handled programmatically.
 
+
+- [Installation](#installation)
+    - [Bower](#bower)
+    - [Git](#git)
+- [Build](#build)
+- [Usage](#usage)
+- [API documentation](#api-documentation)
+    - [require.Sandbox](#requiresandbox-1)
+    - [require.Sandbox - load](#requiresandbox---load)
+    - [require.Sandbox - test](#requiresandbox---test)
+    - [Sandbox.require() and handlers](#sandboxrequire-and-handlers)
+
 ## Installation
 
 ### Bower
