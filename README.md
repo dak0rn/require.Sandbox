@@ -324,6 +324,7 @@ values are possible:
 - `required` - The module has been loaded successfully
 - `error` - The module loading was aborted with an error
 
+The default value is `pending`.
 
 ### Sandbox.error
 
