@@ -59,19 +59,17 @@ source code, minify it and run the tests for the minified version.
 Run `gulp build` to run the `build` task which will do basically the same as the
 `default` task but will also run tests for the uncompressed source.
 
----
 
-When running the linter, you will get warnings like this:
+> When running the linter, you will get warnings like this:
+>
+>    Expected an assignment or function call and instead saw an expression.
+>
+> These are caused by expressions like `options || (options = {})` to set default
+> values for arguments. I like that style, so please ignore them.
+>
+> When running the tests, you will see some `No such file or directory` errors. These
+> are programmatically caused by the tests to test the behaviour with missing files.
 
-    Expected an assignment or function call and instead saw an expression.
-
-These are caused by expressions like `options || (options = {})` to set default
-values for arguments. I like that style, so please ignore them.
-
-When running the tests, you will see some `No such file or directory` errors. These
-are programmatically caused by the tests to test the behaviour with missing files.
-
----
 
 Both, `build` and `default` will generate an `index.min.js` in the folder `dist`.
 For more tasks, please check out the gulpfile.
