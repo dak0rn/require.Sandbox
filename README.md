@@ -18,6 +18,7 @@ not crash the whole application but can be handled programmatically.
         - [test parameter](#test-parameter)
     - [Sandbox.require()](#sandboxrequire)
     - [Sandbox.execute()](#sandboxexecute)
+    - [Sandbox.state](#sandboxstate)
 
 ## Installation
 
@@ -313,3 +314,12 @@ the returned value or the value of the property.
     p.then(function(role){
         console.log('Oh look, John Doe is a ' + role);
         }).catch( myAwesomeErrorHandler );
+
+### Sandbox.state
+
+The `.state` property contains information about the sandbox' state. The following
+values are possible:
+
+- `pending` - The module has not been loaded yet
+- `required` - The module has been loaded successfully
+- `error` - The module loading was aborted with an error
