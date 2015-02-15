@@ -14,8 +14,8 @@ not crash the whole application but can be handled programmatically.
 - [Usage](#usage)
 - [API documentation](#api-documentation)
     - [require.Sandbox](#requiresandbox-1)
-    - [require.Sandbox - load](#requiresandbox---load)
-    - [require.Sandbox - test](#requiresandbox---test)
+        - [load parameter](#load-parameter)
+        - [test parameter](#test-parameter)
     - [Sandbox.require() and handlers](#sandboxrequire-and-handlers)
 
 ## Installation
