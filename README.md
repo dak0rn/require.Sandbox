@@ -16,7 +16,8 @@ not crash the whole application but can be handled programmatically.
     - [require.Sandbox](#requiresandbox-1)
         - [load parameter](#load-parameter)
         - [test parameter](#test-parameter)
-    - [Sandbox.require() and handlers](#sandboxrequire-and-handlers)
+    - [Sandbox.require()](#sandboxrequire)
+    - [Sandbox.execute()](#sandboxexecute)
 
 ## Installation
 
@@ -229,7 +230,7 @@ handy helper function `require.Sandbox.test.undefined` for that.
 If you do not provide a function, anything will taken as correctly loaded.
 
 
-### Sandbox.require() and handlers
+### Sandbox.require()
 
 After you have created a `Sandbox` object you can load the specified module using
 the `.require()` function. It will throw you some errors if anything is wrong
@@ -282,6 +283,33 @@ promise.catch( function(err) {
 });
 ```
 
+### Sandbox.execute()
 
----
-** README is still under development, please stand by **
+A sandbox' `.execute()` function allows you to access the module's properties in a safe way. Exceptions are caught and given to you through the promise returned by the function.
+
+    Sandbox.execute(options)
+
+The function excepts an object with options and has to contain at least the name
+of the property to access. In addition, you can provide a context and an array
+with arguments if you try to access a function.
+
+    options = {
+        name:   'name of the function or property',
+        context: myThisContext,                         // default: { }
+        arguments: ['my','function','arguments']        // default: [ ]
+    };
+
+This function returns a *thenable* whose `.catch()` handlers are invoked when
+the function of the module throws an error. They will receive an error object
+like the handlers used with [Sandbox.require()](#sandboxrequire-1).
+The `.then()` handlers will receive
+the returned value or the value of the property.
+
+    var p = mySandbox.execute({
+        name: 'getRole'
+        arguments: [ {user: 'John Doe', id: 'j87631'} ]
+        });
+
+    p.then(function(role){
+        console.log('Oh look, John Doe is a ' + role);
+        }).catch( myAwesomeErrorHandler );
