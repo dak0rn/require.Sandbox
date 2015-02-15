@@ -301,7 +301,7 @@ with arguments if you try to access a function.
 
 This function returns a *thenable* whose `.catch()` handlers are invoked when
 the function of the module throws an error. They will receive an error object
-like the handlers used with [Sandbox.require()](#sandboxrequire-1).
+like the handlers used with [Sandbox.require()](#sandboxrequire).
 The `.then()` handlers will receive
 the returned value or the value of the property.
 
