@@ -1,0 +1,26 @@
+{
+  "name": "require.Sandbox",
+  "main": "require.Sandbox.js",
+  "version": "1.3.0",
+  "homepage": "https://github.com/SuitSoft/require.Sandbox",
+  "authors": [
+    "dak0rn <daniel@suitsoft.eu>"
+  ],
+  "description": "A sandbox module for require.js",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "require",
+    "require.js",
+    "sandbox"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
