@@ -216,7 +216,7 @@ describe('Sandbox', function(){
         });
     });
 
-    it('should error when trying to force to execute non-function properties', function(done){
+    it('should error when trying to force execute non-function properties', function(done){
         var sandbox = new require.Sandbox({
             load: './script'
         });
@@ -234,6 +234,28 @@ describe('Sandbox', function(){
 
             p.catch( function(){
                 done();
+            });
+        });
+    });
+
+    it('should not error when trying to force execute function properties', function(done){
+        var sandbox = new require.Sandbox({
+            load: './anotherScript'
+        });
+
+        sandbox.require().then( function(box) {
+
+            var p = box.execute({
+                name: 'identity',
+                forceExecute: true
+            });
+
+            p.then( function(result){
+                done();
+            });
+
+            p.catch( function(){
+                done('failed');
             });
         });
     });
