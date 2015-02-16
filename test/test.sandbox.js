@@ -287,6 +287,32 @@ describe('Sandbox', function(){
         });
     });
 
+    it('should overwrite the last error when an error occurs', function(done){
+        var sandbox = new require.Sandbox({
+            load: './anotherScript'
+        });
+
+        sandbox.require().then( function(box) {
+            var err = box.error;
+
+            var p = box.execute({
+                name: 'err'
+            });
+
+            p.then( function(result){
+                done('failed');
+            });
+
+            p.catch( function(error){
+                expect( box.error ).not.to.equal(err);
+                expect( box.error ).to.equal( error );
+
+                done();
+            });
+
+        });
+    });
+
     it('should update its state to "required"', function(done){
         var sandbox = new require.Sandbox({
             load: './anotherScript'
