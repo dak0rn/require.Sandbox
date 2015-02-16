@@ -233,10 +233,13 @@ Thus, if you have a module that returns an object, you path the error function u
 `require.Sandbox.patch.window()` and your test function retrieves `undefined` the module
 has not been loaded correctly.
 
-Since checking for `undefined` is a very common task, `require.Sandbox` comes with the
-handy helper function `require.Sandbox.test.undefined` for that.
-
 If you do not provide a function, anything will taken as correctly loaded.
+
+require.Sandbox comes with some common test functions so that you do not have to
+write the same boilerplate over and over:
+
+- `require.Sandbox.test.undefined` - checks if the given module is `undefined`
+- `require.Sandbox.test.null` -  checks if the given module is `null`
 
 ### require.Sandbox.extend()
 
