@@ -339,27 +339,32 @@ A sandbox' `.execute()` function allows you to access the module's properties in
 
 The function excepts an object with options and has to contain at least the name
 of the property to access. In addition, you can provide a context and an array
-with arguments if you try to access a function.
+with arguments if you try to access a function. The option `forceExecute` indicates
+if require.Sandbox will try to execute the property even if it is not a function.
+This is handy if you want to make sure that a function is provided.
 
     options = {
         name:   'name of the function or property',
         context: myThisContext,                         // default: { }
-        arguments: ['my','function','arguments']        // default: [ ]
+        arguments: ['my','function','arguments']        // default: [ ],
+        forceExecute: true                              // default: false
     };
+
 
 This function returns a *thenable* whose `.catch()` handlers are invoked when
 the function of the module throws an error. They will receive an error object
 like the handlers used with [Sandbox.require()](#sandboxrequire).
-The `.then()` handlers will receive
-the returned value or the value of the property.
+The `.then()` handlers will receive on object with a reference to the sandbox (`.sandbox`) and
+the returned value or the value of the property (`.result`).
 
     var p = mySandbox.execute({
         name: 'getRole'
         arguments: [ {user: 'John Doe', id: 'j87631'} ]
         });
 
-    p.then(function(role){
-        console.log('Oh look, John Doe is a ' + role);
+    p.then(function(value){
+        console.log('Oh look, John Doe is a ' + value.result);
+        console.log('The sandbox that helped me:', value.sandbox);
         }).catch( myAwesomeErrorHandler );
 
 ### Sandbox.state
@@ -375,7 +380,8 @@ The default value is `pending`.
 
 ### Sandbox.error
 
-The `.error` property contains the error that occurred while loading the module.
+The `.error` property contains the last error that occurred. This includes require
+errors as well as errors that occur when trying to access a property using `.execute()`.
 The default value here is `undefined`.
 
 ### Patching error functions
