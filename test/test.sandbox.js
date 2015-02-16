@@ -216,6 +216,28 @@ describe('Sandbox', function(){
         });
     });
 
+    it('should error when trying to force to execute non-function properties', function(done){
+        var sandbox = new require.Sandbox({
+            load: './script'
+        });
+
+        sandbox.require().then( function(box) {
+
+            var p = box.execute({
+                name: 'script',
+                forceExecute: true
+            });
+
+            p.then( function(result){
+                done('failed');
+            });
+
+            p.catch( function(){
+                done();
+            });
+        });
+    });
+
     it('should execute the callback on error', function(done){
         var sandbox = new require.Sandbox({
             load: './anotherScript'
