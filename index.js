@@ -12,7 +12,7 @@
     var previousSandbox = require.Sandbox;
 
     // The sandbox version
-    var _VERSION = "1.0.1";
+    var _VERSION = "1.0.2";
 
     /* == Utility functions == */
 
@@ -297,7 +297,7 @@
          * Load modules specified in the .load property.
          * Returns a sandbox object
          */
-        this.require = function() {
+        this._require = function() {
             tried = true;                       // Yeah we tried its
             var promise =  _loadModules.call(this,_sb);
 
@@ -321,7 +321,7 @@
          * and returns a promise resolved with the return
          * value or reject whenever an error occurs.
          */
-        this.execute = function(options) {
+        this._execute = function(options) {
             if( ! tried )
                 throw new Error('require.Sandbox: No module loaded yet, unable to access it');
 
@@ -394,7 +394,23 @@
          * An error object that contains a reason and the referenced
          * modules.
          */
-        error: undefined
+        error: undefined,
+
+        /**
+         * Require the configured module
+         */
+        require: function() {
+            // Delegate
+            return this._require.apply(this,arguments);
+        },
+
+        /**
+         * Execute a function or access a given property
+         */
+        execute: function() {
+            // Delegate
+            return this._execute.apply(this, arguments);
+        }
 
     });
 
