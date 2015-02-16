@@ -447,7 +447,7 @@ describe('Sandbox', function(){
 
     it('should be requirable by require.js', function(done){
 
-        require(['../index'], function(sb){
+        require(['../require.Sandbox'], function(sb){
             expect( sb ).to.equal( require.Sandbox );
             done();
         });

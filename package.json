@@ -2,7 +2,7 @@
   "name": "require.Sandbox",
   "version": "1.2.0",
   "description": "A sandbox module for requirejs",
-  "main": "index.js",
+  "main": "require.Sandbox.js",
   "scripts": {
     "test": "gulp test:default",
     "build": "gulp build"

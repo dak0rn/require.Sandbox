@@ -42,7 +42,7 @@ Clone the repository with `git`:
     git clone https://github.com/SuitSoft/require.Sandbox.git
 
 
-You then have access to the uncompressed `index.js` and the minified version `dist/index.js`.
+You then have access to the uncompressed `require.Sandbox.js` and the minified version `dist/require.Sandbox.min.js`.
 It is strongly recommended to use the uncompressed version when developing.
 
 ## Build
@@ -81,7 +81,7 @@ Run `gulp build` to run the `build` task which will do basically the same as the
 > are programmatically caused by the tests to test the behaviour with missing files.
 
 
-Both, `build` and `default` will generate an `index.min.js` in the folder `dist`.
+Both, `build` and `default` will generate an `require.Sandbox.min.js` in the folder `dist`.
 For more tasks, please check out the gulpfile.
 
 ## Usage
@@ -98,7 +98,7 @@ Given the following file structure:
                 require.js
             require.Sandbox/
                 dist/
-                    index.min.js
+                    require.Sandbox.min.js
             loader.js
 
 These are the contents of your `index.html` file, a basic require.js kickoff
@@ -122,7 +122,7 @@ module, errors will be caught and printed to the console:
 requirejs.config({
     baseUrl: 'lib',
     paths: {
-        'require.Sandbox': 'require.Sandbox/dist/index.min'
+        'require.Sandbox': 'require.Sandbox/dist/require.Sandbox.min'
     }
 });
 

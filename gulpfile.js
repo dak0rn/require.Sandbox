@@ -15,7 +15,7 @@ gulp.task('lint', function(){
 });
 
 gulp.task('uglify', function(){
-    return gulp.src('index.js')
+    return gulp.src('require.Sandbox.js')
             .pipe( uglify() )
             .pipe( rename({ extname: '.min.js'}))
             .pipe( gulp.dest('dist') );
