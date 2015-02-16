@@ -346,7 +346,7 @@
                 else
                     r = _sb.wrapped[options.name];
 
-                promise.resolve( r );
+                promise.resolve( { result: r, sandbox: this } );
             }
             catch( e ) {
                 promise.reject( _makeError(this,{type:'executeFailed',exception: e}) );
