@@ -32,7 +32,9 @@ not crash the whole application but can be handled programmatically.
 
 ### Bower
 
-*require.Sandbox* will be published on bower soon.
+To install require.Sandbox with [bower](https://bower.io), use the following command:
+
+    bower install require-sandbox
 
 ### Git
 
