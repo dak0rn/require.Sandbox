@@ -236,7 +236,7 @@ If you do not provide a function, anything will taken as correctly loaded.
 
 require.Sandbox provides an `.extend()` function that allows you to create your
 own sandbox *classes* with different (default) behaviour. As well as `.extend()`
-used in Backbone (e.g. [Backbone.model.extend](http://backbonejs.org/#Model-extend))
+used in Backbone (e.g. [Backbone.Model.extend](http://backbonejs.org/#Model-extend))
 this function takes two arguments, instance properties (`protoMixins`) and
 class properties (`staticMixins`) that will be added to the constructor function.
 
