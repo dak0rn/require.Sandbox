@@ -21,6 +21,8 @@ not crash the whole application but can be handled programmatically.
     - [Sandbox.execute()](#sandboxexecute)
     - [Sandbox.state](#sandboxstate)
     - [Sandbox.error](#sandboxerror)
+    - [require.Sandbox.patch.window()](#requiresandboxpatchwindow)
+    - [require.Sandbox.patch.require()](#requiresandboxpatchrequire)
 
 ## Installation
 
@@ -368,3 +370,20 @@ The default value is `pending`.
 
 The `.error` property contains the error that occurred while loading the module.
 The default value here is `undefined`.
+
+### require.Sandbox.patch.window()
+Patches the global `window.onerror()` function to catch all errors that occur.
+This is required to prevent module error from bubbling up. You can use the
+[Sandbox.test](#test-parameter) parameter to programmatically check if a module
+has been loaded successfully.
+
+> **Please note**
+> The patched `.onerror()` function suppresses all error messages.
+> It is recommended to turn this on only in productive environments.
+
+
+### require.Sandbox.patch.require()
+Patches the `.onError()` function provided by require.js to catch all errors
+that occur. This is required to prevent module error from bubbling up. You can use the
+[Sandbox.test](#test-parameter) parameter to programmatically check if a module
+has been loaded successfully.
