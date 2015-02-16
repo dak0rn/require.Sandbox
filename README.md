@@ -26,6 +26,7 @@ not crash the whole application but can be handled programmatically.
         - [require.Sandbox.patch.require()](#requiresandboxpatchrequire)
         - [require.Sandbox.restore.window()](#requiresandboxrestorewindow)
         - [require.Sandbox.restore.require()](#requiresandboxrestorerequire)
+    - [require.Sandbox.noConflict()](#requiresandboxnoconflict)
 
 ## Installation
 
@@ -403,3 +404,7 @@ this function won't do anything.
 #### require.Sandbox.restore.require()
 Restores the patched require.js function. If `require.onError()` has not been patched
 this function won't do anything.
+
+### require.Sandbox.noConflict()
+As with a lot of other libraries, the `.noConflict()` method restores whatever has
+been stored in `require.Sandbox` before and returns the current instance.
