@@ -349,7 +349,8 @@
                 promise.resolve( { result: r, sandbox: this } );
             }
             catch( e ) {
-                promise.reject( _makeError(this,{type:'executeFailed',exception: e}) );
+                this.error = _makeError(this,{type:'executeFailed',exception: e});
+                promise.reject( this.error );
             }
 
             return promise;
