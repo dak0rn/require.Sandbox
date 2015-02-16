@@ -1,6 +1,6 @@
 {
   "name": "require.Sandbox",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A sandbox module for requirejs",
   "main": "index.js",
   "scripts": {

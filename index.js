@@ -11,6 +11,9 @@
     // Reference to another version
     var previousSandbox = require.Sandbox;
 
+    // The sandbox version
+    var _VERSION = "1.0.1";
+
     /* == Utility functions == */
 
     /**
@@ -340,7 +343,7 @@
                     r = _sb.wrapped[options.name].apply(options.context,options.arguments);
                 else
                     r = _sb.wrapped[options.name];
-                
+
                 promise.resolve( r );
             }
             catch( e ) {
@@ -515,6 +518,7 @@
 
     // Export it
     require.Sandbox = Sandbox;
+    require.Sandbox.VERSION = _VERSION;
 
     // Also export it as a require.js legacy module
     define([], function(){
