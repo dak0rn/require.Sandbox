@@ -12,7 +12,7 @@
     var previousSandbox = require.Sandbox;
 
     // The sandbox version
-    var _VERSION = "1.3.1";
+    var _VERSION = "1.3.2";
 
     /* == Utility functions == */
 
@@ -545,9 +545,4 @@
     });
 
 
-})(
-    'undefined' === typeof require ? function(){} : require,
-    'undefined' === typeof requirej ? function(){} : requirej,
-    'undefined' === typeof window ? function(){} : window,
-    'undefined' === typeof define ? function(){} : define
-);
+})( require, requirejs, window, define );
