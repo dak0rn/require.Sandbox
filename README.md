@@ -16,6 +16,7 @@ not crash the whole application but can be handled programmatically.
     - [require.Sandbox](#requiresandbox-1)
         - [load parameter](#load-parameter)
         - [test parameter](#test-parameter)
+    - [require.Sandbox.extend()](#requiresandboxextend)
     - [Sandbox.require()](#sandboxrequire)
     - [Sandbox.execute()](#sandboxexecute)
     - [Sandbox.state](#sandboxstate)
@@ -231,6 +232,42 @@ handy helper function `require.Sandbox.test.undefined` for that.
 
 If you do not provide a function, anything will taken as correctly loaded.
 
+### require.Sandbox.extend()
+
+require.Sandbox provides an `.extend()` function that allows you to create your
+own sandbox *classes* with different (default) behaviour. As well as `.extend()`
+used in Backbone (e.g. [Backbone.model.extend](http://backbonejs.org/#Model-extend))
+this function takes two arguments, instance properties (`protoMixins`) and
+class properties (`staticMixins`) that will be added to the constructor function.
+
+```js
+require.Sandbox.extend(protoMixins, staticMixins)
+```
+
+If you are used to Backbone or Marionette, this looks familiar.
+
+```js
+var VerboseSandbox = require.Sandbox.extend({
+
+    require: function() {
+        console.log('Trying to load ', this.load);
+
+        // Call "parent" function
+        return require.Sandbox.prototype.require.apply(this, arguments);
+    },
+
+    myMagicalFunction: function() {
+        // ...
+    }
+}, {
+    iAmSoStatic: true
+});
+
+var box = new VerboseSandbox({ load: 'awesome-script' });
+box.require();      // Prints: 'Trying to load awesome-script'
+
+VerboseSandbox.iAmSoStatic; // === true
+```
 
 ### Sandbox.require()
 
