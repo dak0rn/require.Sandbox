@@ -21,8 +21,11 @@ not crash the whole application but can be handled programmatically.
     - [Sandbox.execute()](#sandboxexecute)
     - [Sandbox.state](#sandboxstate)
     - [Sandbox.error](#sandboxerror)
-    - [require.Sandbox.patch.window()](#requiresandboxpatchwindow)
-    - [require.Sandbox.patch.require()](#requiresandboxpatchrequire)
+    - [Patching error functions](#patching-error-functions)
+        - [require.Sandbox.patch.window()](#requiresandboxpatchwindow)
+        - [require.Sandbox.patch.require()](#requiresandboxpatchrequire)
+        - [require.Sandbox.restore.window()](#requiresandboxrestorewindow)
+        - [require.Sandbox.restore.require()](#requiresandboxrestorerequire)
 
 ## Installation
 
@@ -371,7 +374,11 @@ The default value is `pending`.
 The `.error` property contains the error that occurred while loading the module.
 The default value here is `undefined`.
 
-### require.Sandbox.patch.window()
+### Patching error functions
+require.Sandbox provides handy functions that allows you to suppress global error
+functions preventing exceptions and errors from bubbling up and crashing the application.
+
+#### require.Sandbox.patch.window()
 Patches the global `window.onerror()` function to catch all errors that occur.
 This is required to prevent module error from bubbling up. You can use the
 [Sandbox.test](#test-parameter) parameter to programmatically check if a module
@@ -382,8 +389,17 @@ has been loaded successfully.
 > It is recommended to turn this on only in productive environments.
 
 
-### require.Sandbox.patch.require()
+#### require.Sandbox.patch.require()
 Patches the `.onError()` function provided by require.js to catch all errors
 that occur. This is required to prevent module error from bubbling up. You can use the
 [Sandbox.test](#test-parameter) parameter to programmatically check if a module
 has been loaded successfully.
+
+
+#### require.Sandbox.restore.window()
+Restores the patched window function. If `window.onerror()` has not been patched
+this function won't do anything.
+
+#### require.Sandbox.restore.require()
+Restores the patched require.js function. If `require.onError()` has not been patched
+this function won't do anything.
