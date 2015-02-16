@@ -182,9 +182,10 @@ describe('Sandbox', function(){
 
             });
 
-            p.then( function(result){
-                expect(result.number).to.equal(42);
-                expect(result.ctx).to.equal(sandbox);
+            p.then( function( result ) {
+                expect( result.result.number ).to.equal(42);
+                expect( result.sandbox ).to.equal(sandbox);
+                expect( result.result.ctx ).to.equal(sandbox);
                 done();
             });
 
@@ -206,7 +207,7 @@ describe('Sandbox', function(){
             });
 
             p.then( function(result){
-                expect(result).to.equal('script.js');
+                expect(result.result).to.equal('script.js');
                 done();
             });
 
