@@ -12,7 +12,7 @@
     var previousSandbox = require.Sandbox;
 
     // The sandbox version
-    var _VERSION = "1.0.3";
+    var _VERSION = "1.0.4";
 
     /* == Utility functions == */
 
@@ -24,7 +24,7 @@
      * @returns         `base`
      */
     var _extend = function(base) {
-        if( 'object' !== typeof base && 'function' !== base )
+        if( 'object' !== typeof base && 'function' !== typeof base )
             return base;
 
         var property;
