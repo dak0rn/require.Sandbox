@@ -1,10 +1,11 @@
 {
   "name": "require.Sandbox",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A sandbox module for requirejs",
   "main": "index.js",
   "scripts": {
-    "test": "mocha-phantomjs test/tests.html"
+    "test": "gulp test:default",
+    "build": "gulp build"
   },
   "keywords": [
     "require",

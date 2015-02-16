@@ -12,7 +12,7 @@
     var previousSandbox = require.Sandbox;
 
     // The sandbox version
-    var _VERSION = "1.0.2";
+    var _VERSION = "1.0.3";
 
     /* == Utility functions == */
 
@@ -24,7 +24,7 @@
      * @returns         `base`
      */
     var _extend = function(base) {
-        if( 'object' !== typeof base )
+        if( 'object' !== typeof base && 'function' !== base )
             return base;
 
         var property;
@@ -432,7 +432,7 @@
             child = protoMixins.constructor;
         }
         else {
-            child = function() { return parent.apply(arguments); };
+            child = function() { return parent.apply(this, arguments); };
         }
 
         // Mixin properties
