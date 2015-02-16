@@ -335,11 +335,13 @@
 
             options = _extend({context:{},arguments:[]},options);
 
+            var execFn = !!options.forceExecute;
+
             try {
                 // Invoke the function or retrieve the value and resolve the promise with it
                 var r;
 
-                if( 'function' === typeof _sb.wrapped[options.name] )
+                if( execFn || 'function' === typeof _sb.wrapped[options.name] )
                     r = _sb.wrapped[options.name].apply(options.context,options.arguments);
                 else
                     r = _sb.wrapped[options.name];
