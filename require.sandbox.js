@@ -12,7 +12,7 @@
     var previousSandbox = require.Sandbox;
 
     // The sandbox version
-    var _VERSION = "1.3.2";
+    var _VERSION = "1.3.3";
 
     /* == Utility functions == */
 
