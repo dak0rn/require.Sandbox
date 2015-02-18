@@ -489,28 +489,80 @@
 
     // Default functions
     var _patchFns = {
-        window: function(){ return true;  },
-        require: function(){ return true; }
+
+        verbose: {
+            // Create a function for `window`
+            window: (function(){
+                var console = {
+                    error: function() {}
+                };
+
+                if( window && window.console && window.console.error ) {
+                    console = window.console;
+                }
+
+                return function(){
+                        console.error('window.onerror -- Caught', arguments);
+                        return true;
+
+                    };
+
+                })(window),
+
+            // Create a function for `require`
+            require: (function(){
+                var console = {
+                    error: function() {}
+                };
+
+                if( window && window.console && window.console.error ) {
+                    console = window.console;
+                }
+
+                return function(){
+                        console.error('require.onError -- Caught', arguments);
+                        return true;
+
+                    };
+
+                })(window)
+        },
+
+        // All the silent stuff
+        silent: {
+            window: function(){ return true;  },
+            require: function(){ return true; }
+        }
+
     };
 
     // Patching
     Sandbox.patch = {
-        window: function() {
+        window: function(type) {
             // Do not overwrite if already patched
             if( 'undefined' !== typeof _patched.window )
                 return;
 
+            type || ( type = 'silent' );
+
+            if( 'undefined' === typeof _patchFns[type] )
+                type = 'silent';
+
+
             _patched.window = window.onerror;
-            window.onerror = _patchFns.window;
+            window.onerror = _patchFns[type].window;
+
         },
 
-        require: function() {
+        require: function(type) {
             // Do not overwrite if already patched
             if( 'undefined' !== typeof _patched.require )
                 return;
 
+            type || ( type = 'silent' );
+
             _patched.require = require.onError;
-            require.onError = _patchFns.require;
+            require.onError = _patchFns[type].require;
         }
     };
 
