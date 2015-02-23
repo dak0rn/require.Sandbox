@@ -400,12 +400,30 @@ has been loaded successfully.
 > The patched `.onerror()` function suppresses all error messages.
 > It is recommended to turn this on only in productive environments.
 
+As of version 1.3.3, the function takes an optional argument `type`.
+
+     require.Sandbox.patch.require(type = 'silent')
+
+Possible values for `type`:
+
+- `silent` (default): all caught errors are suppressed
+- `verbose`: all caught errors are printed to the console using `console.error `
+
 
 #### require.Sandbox.patch.require()
 Patches the `.onError()` function provided by require.js to catch all errors
 that occur. This is required to prevent module error from bubbling up. You can use the
 [Sandbox.test](#test-parameter) parameter to programmatically check if a module
 has been loaded successfully.
+
+As of version 1.3.3, the function takes an optional argument `type`.
+
+     require.Sandbox.patch.require(type = 'silent')
+
+Possible values for `type`:
+
+- `silent` (default): all caught errors are suppressed
+- `verbose`: all caught errors are printed to the console using `console.error `
 
 
 #### require.Sandbox.restore.window()
